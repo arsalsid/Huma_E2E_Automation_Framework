@@ -6,6 +6,24 @@ This framework covers **critical functional flows** using the **Page Object Mode
 
 The application under test is local (`index.html`). Playwright starts it automatically via `webServer` — no staging/production deploy is required.
 
+## Proof of Testing (POT)
+
+Recorded execution of the critical Tic-Tac-Toe Playwright suite:
+
+[Watch the POT recording](./docs/pot/Tic-tac-toe-execution-pot.mp4)
+
+<video src="./docs/pot/Tic-tac-toe-execution-pot.mp4" controls width="720">
+  Your browser does not support embedded video. Use the link above.
+</video>
+
+## Execution Report-01
+
+![Execution Report-01](./docs/reports/Execution-Report-01.png)
+
+## Execution Report-02
+
+![Execution Report-02](./docs/reports/Execution-Report-02.png)
+
 ---
 
 ## Table of contents
@@ -21,6 +39,9 @@ The application under test is local (`index.html`). Playwright starts it automat
 9. [Global setup / teardown](#9-global-setup--teardown)
 10. [Configuration notes](#10-configuration-notes)
 11. [Troubleshooting](#11-troubleshooting)
+12. [Proof of Testing (POT)](#proof-of-testing-pot)
+13. [Execution Report-01](#execution-report-01)
+14. [Execution Report-02](#execution-report-02)
 
 ---
 
@@ -120,6 +141,12 @@ Huma_E2E_Automation_Framework/
 │       ├── TC-004-profile.spec.ts
 │       ├── TC-005-history.spec.ts
 │       └── TC-006-settings.spec.ts
+├── docs/
+│   ├── pot/
+│   │   └── Tic-tac-toe-execution-pot.mp4  # Proof of Testing recording
+│   └── reports/
+│       ├── Execution-Report-01.png
+│       └── Execution-Report-02.png
 └── .github/workflows/
     └── playwright.yml              # CI: run tests + publish Allure
 ```
