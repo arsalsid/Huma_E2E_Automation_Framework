@@ -9,3 +9,6 @@ node_modules/
 /allure-results
 /allure-report
 /sessiondata/
+
+# QA deliverables (test plan / test cases) — keep local; do not push
+/TestPlan/
