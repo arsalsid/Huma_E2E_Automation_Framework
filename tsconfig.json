@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": [
+    "pages/**/*.ts",
+    "tests/ui/tic-tac-toe/**/*.ts",
+    "Fixtures/constants.ts",
+    "playwright.config.ts"
+  ]
+}

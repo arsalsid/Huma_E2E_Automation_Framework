@@ -1,0 +1,44 @@
+{
+  "name": "Huma_E2E_Automation_Framework",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript E2E framework for the Tic-Tac-Toe app (POM, Allure, CI)",
+  "main": "index.js",
+  "scripts": {
+    "clean:allure": "node scripts/clean-allure-results.js",
+    "test": "npm run clean:allure && playwright test --project=chromium",
+    "test:ttt": "npm run clean:allure && playwright test --project=chromium",
+    "test:ttt:chrome": "npm run clean:allure && playwright test --project=chromium",
+    "test:ttt:firefox": "npm run clean:allure && playwright test --project=firefox",
+    "test:ttt:browsers": "npm run clean:allure && playwright test --project=chromium --project=firefox",
+    "test:ttt:headed": "npm run clean:allure && playwright test --project=chromium --headed",
+    "test:ttt:headed:serial": "npm run clean:allure && playwright test --project=chromium --headed --workers=1",
+    "test:ttt:ui": "playwright test --project=chromium --ui",
+    "test:ttt:debug": "playwright test --project=chromium --debug",
+    "report:playwright": "playwright show-report playwright-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:report": "npm run allure:generate && npm run allure:open",
+    "test:report": "npm run test:ttt && npm run allure:report"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "pom",
+    "allure",
+    "tic-tac-toe"
+  ],
+  "author": "Muhammad Arsalan",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.9.5",
+    "allure-commandline": "^2.42.1",
+    "allure-playwright": "^3.10.0",
+    "http-server": "^14.1.1",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}
