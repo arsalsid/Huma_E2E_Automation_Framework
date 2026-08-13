@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 const isCI = !!process.env.CI;
 
-const ticTacToeMatch = /tests\/ui\/tic-tac-toe\/.*\.spec\.ts/;
+const ticTacToeMatch = /tic-tac-toe\/.*\.spec\.ts/;
 const sharedUse = {
   storageState: { cookies: [], origins: [] },
   headless: true,

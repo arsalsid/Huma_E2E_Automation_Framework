@@ -12,7 +12,7 @@
   },
   "include": [
     "pages/**/*.ts",
-    "tests/ui/tic-tac-toe/**/*.ts",
+    "tests/tic-tac-toe/**/*.ts",
     "Fixtures/constants.ts",
     "playwright.config.ts"
   ]

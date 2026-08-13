@@ -1,5 +1,5 @@
 import { test, expect } from './test-base';
-import { AUTH_ERRORS } from '../../../Fixtures/constants';
+import { AUTH_ERRORS } from '../../Fixtures/constants';
 
 /**
  * Page under test: RegisterPage

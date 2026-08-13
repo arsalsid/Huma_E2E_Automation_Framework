@@ -1,5 +1,5 @@
 import { test, expect } from './test-base';
-import { PROFILE_MESSAGES } from '../../../Fixtures/constants';
+import { PROFILE_MESSAGES } from '../../Fixtures/constants';
 
 /**
  * Page under test: ProfilePage

@@ -1,11 +1,11 @@
 import { test as base, expect, type Page } from '@playwright/test';
-import { RegisterPage } from '../../../pages/RegisterPage';
-import { LoginPage } from '../../../pages/LoginPage';
-import { NavigationPage } from '../../../pages/NavigationPage';
-import { GamePage } from '../../../pages/GamePage';
-import { ProfilePage } from '../../../pages/ProfilePage';
-import { HistoryPage } from '../../../pages/HistoryPage';
-import { SettingsPage } from '../../../pages/SettingsPage';
+import { RegisterPage } from '../../pages/RegisterPage';
+import { LoginPage } from '../../pages/LoginPage';
+import { NavigationPage } from '../../pages/NavigationPage';
+import { GamePage } from '../../pages/GamePage';
+import { ProfilePage } from '../../pages/ProfilePage';
+import { HistoryPage } from '../../pages/HistoryPage';
+import { SettingsPage } from '../../pages/SettingsPage';
 
 type TicTacToeFixtures = {
   registerPage: RegisterPage;
