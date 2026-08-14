@@ -223,7 +223,7 @@ npm run test:ttt:ui
 npm run test:ttt:debug
 
 # Run one file
-npx playwright test tests/ui/tic-tac-toe/TC-001-register.spec.ts --project=TicTacToe
+npx playwright test tests/tic-tac-toe/TC-001-register.spec.ts --project=TicTacToe
 ```
 
 ### npm scripts reference
