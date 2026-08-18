@@ -54,4 +54,22 @@ test.describe('Critical Flow - Login', () => {
     await loginPage.goToRegisterPage();
     await registerPage.expectRegisterMode();
   });
+
+  test('TC-TTT-017: Login validation - empty and too short name', async ({
+    registerPage,
+    loginPage,
+    settingsPage,
+  }) => {
+    await registerPage.goto();
+    await settingsPage.setLanguage('en');
+    await registerPage.goToLoginPage();
+
+    await loginPage.nameInput.fill('');
+    await loginPage.loginButton.click();
+    await expect(loginPage.error).toHaveText(AUTH_ERRORS.emptyName);
+
+    await loginPage.nameInput.fill('A');
+    await loginPage.loginButton.click();
+    await expect(loginPage.error).toHaveText(AUTH_ERRORS.tooShort);
+  });
 });

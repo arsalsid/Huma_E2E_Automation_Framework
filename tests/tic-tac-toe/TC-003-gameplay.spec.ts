@@ -66,16 +66,66 @@ test.describe('Critical Flow - Gameplay', () => {
     await expect(gamePage.difficultySelect).toHaveValue('hard');
     await gamePage.setDifficulty('easy');
     await expect(gamePage.difficultySelect).toHaveValue('easy');
+
+    await gamePage.waitForYourTurn();
+    await gamePage.clickCell(4);
+    await gamePage.expectPlayerMarkAt(4);
+    await gamePage.expectComputerHasMoved();
   });
 
   test('TC-TTT-011: Finished game updates status to win, loss, or draw', async ({
     registerFreshUser,
     gamePage,
+    navPage,
+    profilePage,
   }) => {
     await registerFreshUser();
-    await gamePage.setDifficulty('hard');
-    const result = await gamePage.playUntilGameEnds();
+    await gamePage.setDifficulty('easy');
+    const result = await gamePage.playUntilGameEnds(9, 'best');
     expect(['human', 'computer', 'draw']).toContain(result);
-    await expect(gamePage.status).toHaveAttribute('data-status', result);
+    await gamePage.expectFinishedResult(result);
+
+    await navPage.goToProfile();
+    await profilePage.expectLoaded();
+    const expectedStat =
+      result === 'human'
+        ? profilePage.wins
+        : result === 'computer'
+          ? profilePage.losses
+          : profilePage.draws;
+    await expect(expectedStat).toHaveText('1');
+  });
+
+  test('TC-TTT-018: Occupied cell cannot be overwritten', async ({
+    registerFreshUser,
+    gamePage,
+  }) => {
+    await registerFreshUser();
+    await gamePage.setDifficulty('easy');
+    await gamePage.waitForYourTurn();
+    await gamePage.clickCell(0);
+    await gamePage.expectPlayerMarkAt(0);
+    await gamePage.expectComputerHasMoved();
+    await gamePage.expectOccupiedCellUnchanged(0);
+  });
+
+  test('TC-TTT-019: Changing difficulty mid-game shows confirm and starts a new game', async ({
+    registerFreshUser,
+    gamePage,
+  }) => {
+    await registerFreshUser();
+    await gamePage.setDifficulty('easy');
+    await gamePage.waitForYourTurn();
+    await gamePage.clickCell(0);
+    await gamePage.expectPlayerMarkAt(0);
+    await gamePage.expectComputerHasMoved();
+
+    await gamePage.setDifficulty('medium', false);
+    await expect(gamePage.cell(0)).toHaveAttribute('data-state', 'x');
+    await expect(gamePage.difficultySelect).toHaveValue('easy');
+
+    await gamePage.setDifficulty('medium', true);
+    await gamePage.expectBoardCleared();
+    await expect(gamePage.difficultySelect).toHaveValue('medium');
   });
 });

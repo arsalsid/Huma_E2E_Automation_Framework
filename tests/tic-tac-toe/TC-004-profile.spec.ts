@@ -43,4 +43,26 @@ test.describe('Critical Flow - Profile', () => {
     await loginPage.login(name);
     await expect(loginPage.error).toBeVisible();
   });
+
+  test('TC-TTT-020: Rename to an existing name is rejected', async ({
+    registerPage,
+    navPage,
+    profilePage,
+    settingsPage,
+  }) => {
+    const first = `First_${Date.now()}`;
+    const second = `Second_${Date.now()}`;
+
+    await registerPage.goto();
+    await settingsPage.setLanguage('en');
+    await registerPage.register(first);
+    await navPage.logout();
+
+    await registerPage.register(second);
+    await navPage.goToProfile();
+    await profilePage.updateName(first);
+
+    await expect(profilePage.errorMessage).toBeVisible();
+    await navPage.expectLoggedInAs(second);
+  });
 });

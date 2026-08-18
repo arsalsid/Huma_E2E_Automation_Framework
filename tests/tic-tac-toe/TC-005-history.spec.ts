@@ -25,8 +25,8 @@ test.describe('Critical Flow - History', () => {
     await registerFreshUser();
 
     await navPage.goToPlay();
-    await gamePage.setDifficulty('hard');
-    const result = await gamePage.playUntilGameEnds();
+    await gamePage.setDifficulty('easy');
+    const result = await gamePage.playUntilGameEnds(9, 'best');
 
     await navPage.goToHistory();
     await historyPage.expectHasResults();
@@ -34,5 +34,22 @@ test.describe('Critical Flow - History', () => {
       'data-result',
       result === 'human' ? 'win' : result === 'computer' ? 'loss' : 'draw'
     );
+  });
+
+  test('TC-TTT-021: Clear history removes all records', async ({
+    registerFreshUser,
+    navPage,
+    gamePage,
+    historyPage,
+  }) => {
+    await registerFreshUser();
+    await navPage.goToPlay();
+    await gamePage.setDifficulty('easy');
+    await gamePage.playUntilGameEnds(9, 'best');
+
+    await navPage.goToHistory();
+    await historyPage.expectHasResults();
+    await historyPage.clearHistory();
+    await historyPage.expectEmpty();
   });
 });

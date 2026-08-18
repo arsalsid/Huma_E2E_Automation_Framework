@@ -36,12 +36,15 @@ Recorded execution of the critical Tic-Tac-Toe Playwright suite:
 6. [How to run tests](#6-how-to-run-tests)
 7. [Allure reporting](#7-allure-reporting)
 8. [GitHub Actions CI/CD](#8-github-actions-cicd)
-9. [Global setup / teardown](#9-global-setup--teardown)
+9. [Test isolation](#9-test-isolation)
 10. [Configuration notes](#10-configuration-notes)
 11. [Troubleshooting](#11-troubleshooting)
 12. [Proof of Testing (POT)](#proof-of-testing-pot)
 13. [Execution Report-01](#execution-report-01)
 14. [Execution Report-02](#execution-report-02)
+15. [Test plan](./docs/TEST-PLAN.md)
+16. [Test cases](./docs/TEST-CASES.md)
+17. [Approach](./docs/APPROACH.md) (optional)
 
 ---
 
@@ -118,8 +121,6 @@ npx http-server . -p 3000 -c-1
 Huma_E2E_Automation_Framework/
 ├── index.html                      # Tic-Tac-Toe app (local AUT)
 ├── playwright.config.ts            # Projects, webServer, reporters, baseURL
-├── global-setup.ts                 # Runs once before the suite
-├── global-teardown.ts              # Runs once after the suite
 ├── package.json                    # npm scripts (test + Allure)
 ├── tsconfig.json                   # TypeScript config
 ├── pages/                          # Page Object Model classes
@@ -129,19 +130,23 @@ Huma_E2E_Automation_Framework/
 │   ├── ProfilePage.ts
 │   ├── HistoryPage.ts
 │   ├── SettingsPage.ts
-│   └── NavigationPage.ts           # Shared nav POM (no dedicated spec)
+│   └── NavigationPage.ts           # Play / Profile / History / Log Out
 ├── Fixtures/
 │   └── constants.ts                # Shared expected messages
 ├── tests/
-│   └── ui/tic-tac-toe/
+│   └── tic-tac-toe/
 │       ├── test-base.ts            # Shared Playwright fixtures (POM wiring)
 │       ├── TC-001-register.spec.ts
 │       ├── TC-002-login.spec.ts
 │       ├── TC-003-gameplay.spec.ts
 │       ├── TC-004-profile.spec.ts
 │       ├── TC-005-history.spec.ts
-│       └── TC-006-settings.spec.ts
+│       ├── TC-006-settings.spec.ts
+│       └── TC-007-session-nav.spec.ts
 ├── docs/
+│   ├── TEST-PLAN.md                # Short test plan (required)
+│   ├── TEST-CASES.md               # Concrete cases (required)
+│   ├── APPROACH.md                 # Why this approach (optional)
 │   ├── pot/
 │   │   └── Tic-tac-toe-execution-pot.mp4  # Proof of Testing recording
 │   └── reports/
@@ -170,9 +175,9 @@ Huma_E2E_Automation_Framework/
 | `ProfilePage` | `TC-004-profile.spec.ts` | Stats, rename, delete account |
 | `HistoryPage` | `TC-005-history.spec.ts` | Empty history + history after finished game |
 | `SettingsPage` | `TC-006-settings.spec.ts` | Theme + language |
-| `NavigationPage` | *(shared)* | Used by other specs for Play/Profile/History/Log Out |
+| `NavigationPage` | `TC-007-session-nav.spec.ts` | Play / Profile / History + session after reload |
 
-`NavigationPage` has **no dedicated spec** on purpose. Navigation is exercised inside real flows so the suite stays simple for reviewers.
+Navigation is also used inside the other specs (logout, profile, history) so those flows stay end-to-end.
 
 ---
 
@@ -223,7 +228,7 @@ npm run test:ttt:ui
 npm run test:ttt:debug
 
 # Run one file
-npx playwright test tests/ui/tic-tac-toe/TC-001-register.spec.ts --project=TicTacToe
+npx playwright test tests/tic-tac-toe/TC-001-register.spec.ts --project=chromium
 ```
 
 ### npm scripts reference
@@ -326,14 +331,11 @@ Artifacts are also downloadable from the Actions run page:
 
 ---
 
-## 9. Global setup / teardown
+## 9. Test isolation
 
-| File | Role |
-|---|---|
-| `global-setup.ts` | Creates `sessiondata/` helper folder before suite |
-| `global-teardown.ts` | Cleans temporary session data after suite |
+Each Tic-Tac-Toe spec starts with empty storage (`storageState` cookies/origins cleared in `test-base.ts`). There is no shared login file and no global setup/teardown.
 
-These run automatically with Playwright. You do not need to call them manually.
+You do not need to reset the app between runs. `registerFreshUser()` creates a unique name per test.
 
 ---
 
@@ -344,7 +346,7 @@ Key file: `playwright.config.ts`
 - **`webServer`**: serves `index.html` on port `3000`
 - **`baseURL`**: `http://127.0.0.1:3000`
 - **Reporters**: list + Allure + Playwright HTML
-- **Project `TicTacToe`**: matches `tests/ui/tic-tac-toe/*.spec.ts`
+- **Project `chromium`**: matches `tests/tic-tac-toe/*.spec.ts`
 - **CI browser**: Playwright Chromium (no system Chrome dependency)
 - **Local browser**: system Chrome channel when available
 

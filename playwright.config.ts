@@ -34,9 +34,6 @@ export default defineConfig({
     ['allure-playwright'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
-
   projects: [
     {
       name: 'chromium',
